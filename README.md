@@ -4,7 +4,7 @@
 <h3>I'm QA Software Engineer with experience in QA Automation and Manual Testing </h3>
   </div><br>
   <div align="center">
-  <img src="https://longlistio.s3.amazonaws.com/jd/qa-tester-job-description-1659442127.webp">
+  <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vskills.in%2Fcertification%2Fblog%2Fhow-to-get-qa-testing-job-as-a-fresher%2F&psig=AOvVaw1CuOgOImxCjdsH6ekV4R7Q&ust=1700259170651000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCODohJHFyYIDFQAAAAAdAAAAABAJ">
     </div>
 
 	https://longlistio.s3.amazonaws.com/jd/qa-tester-job-description-1659442127.webp
