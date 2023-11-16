@@ -1,6 +1,13 @@
 <h1 align="center">
   🅷🅴🅻🅻🅾, 🆆🅾🆁🅻🅳! 👋  </h1>
+ <div align="center">
+<h3>I'm QA Software Engineer with experience in QA Automation and Manual Testing </h3>
+  </div><br>
+  <div align="center">
+  <img src="https://longlistio.s3.amazonaws.com/jd/qa-tester-job-description-1659442127.webp">
+    </div>
 
+	https://longlistio.s3.amazonaws.com/jd/qa-tester-job-description-1659442127.webp
 <!--
 **TeddyArm/TeddyArm** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
