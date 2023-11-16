@@ -4,8 +4,9 @@
 <h3>I'm QA Software Engineer with experience in QA Automation and Manual Testing </h3>
   </div><br>
   <div align="center">
-  <img src="https://stock.adobe.com/search?k=software+tester&asset_id=292508157">
+  <img src="https://as2.ftcdn.net/v2/jpg/02/92/50/81/1000_F_292508157_yIbENLP5Bry8a97l5OXRrkiCZYR5ZtQN.jpg">
     </div>
+<br>
 
 	https://longlistio.s3.amazonaws.com/jd/qa-tester-job-description-1659442127.webp
 <!--
