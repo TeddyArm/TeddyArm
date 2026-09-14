@@ -13,6 +13,12 @@
       "skillPath": "adaptive-communication/skills/adaptive-communication/SKILL.md",
       "computedHash": "19a5c484361952d98eedd31b2e82e043b7d44408d64077e5030956a810df14dc"
     },
+    "awesome-design-md": {
+      "source": "voltagent/awesome-design-md",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/awesome-design-md/SKILL.md",
+      "computedHash": "10ac793f005a5d809a9f4e398f59ee19e63ca5de2caa4c3dc1e4427a3a4b34b2"
+    },
     "banner-design": {
       "source": "nextlevelbuilder/ui-ux-pro-max-skill",
       "sourceType": "github",
