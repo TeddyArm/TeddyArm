@@ -1,0 +1,583 @@
+<title>Clarity Cleaning Co.</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800;900&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root{
+    --frame: #16140F;
+
+    --bg: #F6F3EC;
+    --surface: #FFFFFF;
+    --surface-2: #EFEAdc;
+    --ink: #15140F;
+    --ink-soft: #6E6B60;
+    --ink-faint: #A3A092;
+    --line: #E3DED0;
+    --accent: #2E5C43;
+    --accent-ink: #F3F6F1;
+    --accent-soft: #E1E9E1;
+    --ghost: #E9E3D3;
+    --shadow: 0 1px 2px rgba(21,20,15,.05), 0 18px 40px -22px rgba(21,20,15,.35);
+
+    --font-display: 'Archivo', system-ui, sans-serif;
+    --font-body: 'Manrope', system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  }
+
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg: #1B1912;
+      --surface: #221F17;
+      --surface-2: #29261A;
+      --ink: #F2EEDF;
+      --ink-soft: #ABA795;
+      --ink-faint: #726F60;
+      --line: #332F22;
+      --accent: #6FBF98;
+      --accent-ink: #0E1712;
+      --accent-soft: #24352B;
+      --ghost: #262316;
+      --shadow: 0 1px 2px rgba(0,0,0,.5), 0 18px 40px -22px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg: #1B1912;
+    --surface: #221F17;
+    --surface-2: #29261A;
+    --ink: #F2EEDF;
+    --ink-soft: #ABA795;
+    --ink-faint: #726F60;
+    --line: #332F22;
+    --accent: #6FBF98;
+    --accent-ink: #0E1712;
+    --accent-soft: #24352B;
+    --ghost: #262316;
+    --shadow: 0 1px 2px rgba(0,0,0,.5), 0 18px 40px -22px rgba(0,0,0,.7);
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior: auto; } *{ animation-duration: .001ms !important; animation-iteration-count: 1 !important; } }
+
+  body{
+    margin: 0;
+    background: var(--frame);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    padding: 18px;
+  }
+  @media (max-width: 640px){ body{ padding: 10px; } }
+
+  .canvas{
+    background: var(--bg);
+    border-radius: 22px;
+    overflow: hidden;
+  }
+
+  .wrap{ max-width: 1180px; margin-inline: auto; padding-inline: 32px; }
+  @media (max-width: 640px){ .wrap{ padding-inline: 18px; } }
+
+  h1,h2,h3{ font-family: var(--font-display); font-weight: 800; letter-spacing: -.02em; text-wrap: balance; margin: 0; color: var(--ink); }
+  p{ margin: 0; }
+  a{ color: inherit; }
+  img{ max-width: 100%; display: block; }
+
+  .bracket{
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: .05em;
+    color: var(--ink-soft); white-space: nowrap;
+  }
+
+  .pill{
+    display: inline-flex; align-items: center; font-family: var(--font-mono);
+    font-size: 12.5px; letter-spacing: .02em; color: var(--ink-soft);
+    background: var(--surface-2); border-radius: 999px; padding: 7px 14px;
+  }
+  .pill-row{ display: flex; flex-wrap: wrap; gap: 10px; }
+  .pill-row.big .pill{ font-size: 13.5px; padding: 10px 18px; }
+
+  .btn-pill{
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-body); font-weight: 700; font-size: 14.5px;
+    background: var(--ink); color: var(--bg);
+    padding: 13px 24px; border-radius: 999px; border: none;
+    text-decoration: none; cursor: pointer; white-space: nowrap;
+  }
+  .btn-pill:hover{ filter: brightness(1.12); }
+  .btn-pill.ghost{ background: var(--surface); color: var(--ink); border: 1px solid var(--line); }
+  .btn-pill.accent{ background: var(--accent); color: var(--accent-ink); }
+
+  .hover-fill{ position: relative; overflow: hidden; isolation: isolate; }
+  .hover-fill:hover{ filter: none; }
+  .hb-label{
+    position: relative; display: inline-flex; align-items: center; gap: 8px;
+    transition: transform .3s ease, opacity .3s ease;
+  }
+  .hover-fill:hover .hb-label-default{ transform: translateX(28px); opacity: 0; }
+  .hb-label-hover{
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 8px;
+    transform: translateX(28px); opacity: 0;
+  }
+  .hover-fill:hover .hb-label-hover{ transform: translateX(0); opacity: 1; }
+
+  @keyframes rise{ from{ opacity: 0; transform: translateY(12px);} to{ opacity:1; transform: translateY(0);} }
+  .rise{ animation: rise .65s cubic-bezier(.2,.7,.2,1) both; }
+  .rise-1{ animation-delay: .02s; } .rise-2{ animation-delay: .1s; }
+  .rise-3{ animation-delay: .18s; } .rise-4{ animation-delay: .26s; }
+
+  /* ---------- header ---------- */
+  header.site{
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 20px; padding-block: 24px;
+  }
+  .brand{
+    display: flex; align-items: center; gap: 10px; text-decoration: none;
+    font-family: var(--font-display); font-weight: 900; font-size: 19px; letter-spacing: -.01em; color: var(--ink);
+  }
+  .brand .mark{
+    width: 30px; height: 30px; border-radius: 9px; background: var(--ink); color: var(--bg);
+    display: flex; align-items: center; justify-content: center; font-size: 15px; flex: none;
+  }
+  nav.primary{ display: none; align-items: center; gap: 6px; font-size: 14px; color: var(--ink-soft); }
+  nav.primary a{ text-decoration: none; padding: 8px 12px; border-radius: 999px; }
+  nav.primary a:hover{ background: var(--surface-2); color: var(--ink); }
+  nav.primary span{ color: var(--ink-faint); }
+  @media (min-width: 900px){ nav.primary{ display: flex; } }
+
+  /* ---------- hero (animated marquee) ---------- */
+  .hero{
+    position: relative; overflow: hidden;
+    min-height: clamp(560px, 82vh, 860px);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding-block: 48px 0;
+  }
+  .hero-inner{ display: flex; flex-direction: column; align-items: center; max-width: 780px; margin-inline: auto; padding-inline: 24px; }
+  .tagline-pill{
+    display: inline-flex; align-items: center; font-family: var(--font-mono); font-size: 12px;
+    letter-spacing: .05em; color: var(--ink-soft); border: 1px solid var(--line);
+    background: color-mix(in srgb, var(--surface) 70%, transparent); backdrop-filter: blur(6px);
+    border-radius: 999px; padding: 8px 16px; margin-bottom: 6px;
+  }
+  .hero h1{
+    font-size: clamp(40px, 7vw, 78px); line-height: .98; margin-top: 20px;
+  }
+  .hero h1 .word{ display: inline-block; }
+  .hero-desc{ max-width: 42ch; color: var(--ink-soft); font-size: 16px; margin-top: 22px; }
+  .hero .btn-pill{ margin-top: 30px; padding: 15px 30px; font-size: 15px; }
+
+  .marquee-wrap{
+    position: relative; width: 100%; margin-top: 56px;
+    height: clamp(160px, 24vh, 260px);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
+            mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
+    overflow: hidden;
+  }
+  .marquee-track{
+    position: absolute; inset: 0; display: flex; align-items: center; gap: 16px; width: max-content;
+    animation: marquee 46s linear infinite;
+  }
+  @keyframes marquee{ from{ transform: translateX(0); } to{ transform: translateX(-50%); } }
+  .marquee-card{
+    flex: none; aspect-ratio: 3/4; height: clamp(140px, 20vh, 220px);
+  }
+  .marquee-card img{
+    width: 100%; height: 100%; object-fit: cover; border-radius: 16px; box-shadow: var(--shadow);
+  }
+  .marquee-card:nth-child(odd){ rotate: -2deg; }
+  .marquee-card:nth-child(even){ rotate: 3deg; }
+
+  /* ---------- section scaffolding ---------- */
+  .section{ padding-block: 68px; border-top: 1px solid var(--line); }
+  .section-top{ display: flex; align-items: center; justify-content: space-between; }
+  .section h2{ font-size: clamp(28px, 4vw, 44px); margin-top: 14px; max-width: 16ch; }
+  #services h2{ font-size: clamp(32px, 4.2vw, 52px); max-width: 30ch; margin-inline: auto; text-align: center; white-space: normal; }
+
+  /* ---------- process ---------- */
+  .process-grid{ position: relative; margin-top: 44px; }
+  .process-list{ list-style: none; margin: 0; padding: 0; }
+  .process-list li{
+    display: flex; align-items: center; gap: 20px;
+    padding-block: 24px; border-top: 1px solid var(--line);
+  }
+  .process-list li:last-child{ border-bottom: 1px solid var(--line); }
+  .ghost{ font-family: var(--font-display); font-weight: 800; font-size: clamp(40px,6vw,64px); color: var(--ghost); line-height: 1; flex: none; width: 1.3em; }
+  .process-list .body{ flex: 1; min-width: 0; }
+  .process-list h3{ font-size: 19px; font-weight: 700; }
+  .process-list p{ margin-top: 6px; font-size: 14px; color: var(--ink-soft); max-width: 46ch; }
+  .process-list .pill{ flex: none; }
+
+
+  /* ---------- services ---------- */
+  .service-row{
+    display: grid; gap: 40px; align-items: center;
+    padding-block: 44px; border-top: 1px solid var(--line);
+  }
+  .service-row:last-child{ border-bottom: 1px solid var(--line); }
+  @media (min-width: 900px){
+    .service-row{ grid-template-columns: 1fr 1fr; gap: 56px; }
+    .service-row.flip .service-photos{ order: 2; }
+    .service-row.flip .service-text{ order: 1; }
+  }
+  .service-text h3{ font-size: clamp(22px, 2.6vw, 28px); margin-top: 12px; }
+  .service-text p{ margin-top: 12px; color: var(--ink-soft); font-size: 15.5px; max-width: 46ch; }
+  .service-text .pill-row{ margin-top: 20px; }
+
+  .service-photos{ position: relative; aspect-ratio: 6/5; }
+  .photo-main{
+    position: absolute; inset: 0; width: 88%; height: 82%; object-fit: cover;
+    border-radius: 18px; box-shadow: var(--shadow);
+  }
+  .photo-accent{
+    position: absolute; right: 0; bottom: 0; width: 46%; height: 46%; object-fit: cover;
+    border-radius: 14px; box-shadow: var(--shadow); border: 6px solid var(--bg);
+  }
+  .photo-tag{
+    position: absolute; left: 14px; bottom: 14px; z-index: 2;
+    background: rgba(21,20,15,.72); color: #F3F1E9; backdrop-filter: blur(6px);
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: .05em;
+    padding: 7px 12px; border-radius: 999px;
+  }
+
+  .service-photos.reserved{
+    border: 1.5px dashed var(--line); border-radius: 18px;
+    display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 10px;
+    width: 88%; height: 82%;
+  }
+  .service-photos.reserved .plus{
+    width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--ink-faint);
+    display: flex; align-items: center; justify-content: center; color: var(--ink-faint);
+  }
+  .service-photos.reserved span{ font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-soft); text-align: center; padding-inline: 20px; }
+
+  /* ---------- trust ---------- */
+  .trust .pill-row{ margin-top: 32px; }
+
+  /* ---------- contact ---------- */
+  .contact-grid{ display: grid; gap: 24px; grid-template-columns: 1fr; margin-top: 40px; }
+  @media (min-width: 900px){ .contact-grid{ grid-template-columns: .8fr 1.2fr; } }
+
+  .contact-card{
+    background: #15140F; color: #F3F1E9; border-radius: 20px; padding: 30px 26px;
+  }
+  .contact-card .bracket{ color: #A79F8A; }
+  .contact-card h3{ color: #F3F1E9; margin-top: 10px; font-size: 21px; }
+  .contact-card dl{ margin: 24px 0 0; display: grid; gap: 15px; }
+  .contact-card dt{ font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .07em; color: #948E7C; text-transform: uppercase; }
+  .contact-card dd{ margin: 4px 0 0; font-size: 15px; }
+  .contact-card dd a{ color: inherit; text-decoration: none; }
+  .contact-card dd a:hover{ text-decoration: underline; }
+
+  form.quote-form{ background: var(--surface); border-radius: 20px; padding: 30px 26px; }
+  .form-row{ display: grid; gap: 16px; grid-template-columns: 1fr; margin-bottom: 16px; }
+  @media (min-width: 540px){ .form-row.two{ grid-template-columns: 1fr 1fr; } }
+  label{ display: block; font-family: var(--font-mono); font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 8px; }
+  input, select, textarea{
+    width: 100%; font-family: var(--font-body); font-size: 15px; color: var(--ink);
+    background: var(--surface-2); border: 1px solid transparent; border-radius: 12px;
+    padding: 12px 14px;
+  }
+  input:focus, select:focus, textarea:focus{ outline: 2px solid var(--accent); outline-offset: 1px; }
+  textarea{ resize: vertical; min-height: 92px; }
+  .form-foot{ display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 8px; }
+  .form-note{ font-size: 12px; color: var(--ink-soft); max-width: 32ch; }
+
+  /* ---------- footer ---------- */
+  footer{ padding-block: 30px; }
+  footer .row{ display: flex; flex-wrap: wrap; gap: 18px; align-items: center; justify-content: space-between; }
+  footer nav{ display: flex; gap: 6px; font-size: 13.5px; }
+  footer nav a{ text-decoration: none; color: var(--ink-soft); padding: 6px 10px; border-radius: 999px; }
+  footer nav a:hover{ background: var(--surface-2); color: var(--ink); }
+  footer .fine{ font-size: 12.5px; color: var(--ink-soft); margin-top: 18px; }
+</style>
+
+<div class="canvas">
+<div class="wrap">
+  <header class="site">
+    <a class="brand" href="#top"><span class="mark">C</span> CLARITY</a>
+    <nav class="primary">
+      <a href="#services">Residential</a><span>&middot;</span>
+      <a href="#services">Commercial</a><span>&middot;</span>
+      <a href="#services">Post&#8209;Construction</a><span>&middot;</span>
+      <a href="#process">Process</a>
+    </nav>
+    <a class="btn-pill hover-fill" href="#contact">
+      <span class="hb-label hb-label-default">Book a clean</span>
+      <span class="hb-label hb-label-hover">
+        Book a clean
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </span>
+    </a>
+  </header>
+</div>
+
+<main>
+  <!-- ============ HERO (animated marquee) ============ -->
+  <section class="hero" id="top">
+    <div class="hero-inner">
+      <span class="tagline-pill rise rise-1">[ SERVING ALL 5 BOROUGHS ]</span>
+      <h1>
+        <span class="word rise" style="animation-delay:.08s">One</span>
+        <span class="word rise" style="animation-delay:.14s">clean</span>
+        <span class="word rise" style="animation-delay:.20s">standard,</span>
+        <br/>
+        <span class="word rise" style="animation-delay:.26s">across</span>
+        <span class="word rise" style="animation-delay:.32s">every</span>
+        <span class="word rise" style="animation-delay:.38s">borough.</span>
+      </h1>
+      <p class="hero-desc rise" style="animation-delay:.5s">More than a wipe-down — Clarity crews run the same numbered checklist on every visit, whether it's a Tribeca loft or a Long Island City office floor.</p>
+      <a class="btn-pill hover-fill rise" style="animation-delay:.6s" href="#contact">
+        <span class="hb-label hb-label-default">Book a Clean</span>
+        <span class="hb-label hb-label-hover">
+          Book a Clean
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </span>
+      </a>
+    </div>
+
+    <div class="marquee-wrap">
+      <div class="marquee-track">
+        <div class="marquee-card"><img src="assets/nyc-skyline.jpg" alt="New York City skyline at dusk" /></div>
+        <div class="marquee-card"><img src="assets/home-1.jpg" alt="Living room, cleaned" /></div>
+        <div class="marquee-card"><img src="assets/office-2.jpg" alt="Open-plan office floor, cleaned" /></div>
+        <div class="marquee-card"><img src="assets/nyc-liberty.jpg" alt="Statue of Liberty and Manhattan skyline at sunset" /></div>
+        <div class="marquee-card"><img src="assets/home-2.jpg" alt="Bedroom, cleaned and staged" /></div>
+        <div class="marquee-card"><img src="assets/office-1.jpg" alt="Executive lounge, cleaned" /></div>
+        <div class="marquee-card"><img src="assets/nyc-skywalk.jpg" alt="Skywalk plaza connecting Manhattan and Brooklyn" /></div>
+        <div class="marquee-card"><img src="assets/interior-1.jpg" alt="Bedroom, cleaned and staged" /></div>
+        <div class="marquee-card"><img src="assets/interior-2.jpg" alt="Kitchen, cleaned" /></div>
+        <!-- duplicated for a seamless loop -->
+        <div class="marquee-card"><img src="assets/nyc-skyline.jpg" alt="" aria-hidden="true" /></div>
+        <div class="marquee-card"><img src="assets/home-1.jpg" alt="" aria-hidden="true" /></div>
+        <div class="marquee-card"><img src="assets/office-2.jpg" alt="" aria-hidden="true" /></div>
+        <div class="marquee-card"><img src="assets/nyc-liberty.jpg" alt="" aria-hidden="true" /></div>
+        <div class="marquee-card"><img src="assets/home-2.jpg" alt="" aria-hidden="true" /></div>
+        <div class="marquee-card"><img src="assets/office-1.jpg" alt="" aria-hidden="true" /></div>
+        <div class="marquee-card"><img src="assets/nyc-skywalk.jpg" alt="" aria-hidden="true" /></div>
+        <div class="marquee-card"><img src="assets/interior-1.jpg" alt="" aria-hidden="true" /></div>
+        <div class="marquee-card"><img src="assets/interior-2.jpg" alt="" aria-hidden="true" /></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SERVICES ============ -->
+  <section class="section" id="services">
+    <div class="wrap">
+      <div class="section-top">
+        <span class="bracket">[ 02 ]</span>
+        <span class="bracket">[ WHAT WE CLEAN ]</span>
+      </div>
+      <h2>Built for how New York lives and works.</h2>
+
+      <!-- Residential -->
+      <div class="service-row">
+        <div class="service-text">
+          <span class="bracket">[ 01 / RESIDENTIAL ]</span>
+          <h3>House &amp; Apartment Cleaning</h3>
+          <p>Kitchens, bathrooms, bedrooms and living areas, cleaned to the same standard whether it's a walk-up in Astoria or a high-rise on the Upper West Side.</p>
+          <div class="pill-row">
+            <span class="pill">One-time</span>
+            <span class="pill">Weekly</span>
+            <span class="pill">Bi-weekly</span>
+            <span class="pill">Monthly</span>
+          </div>
+        </div>
+        <div class="service-photos">
+          <img class="photo-main" src="assets/home-1.jpg" alt="Living and dining room, cleaned" />
+          <img class="photo-accent" src="assets/home-2.jpg" alt="Bedroom, cleaned and staged" />
+        </div>
+      </div>
+
+      <!-- Commercial -->
+      <div class="service-row flip">
+        <div class="service-text">
+          <span class="bracket">[ 02 / COMMERCIAL ]</span>
+          <h3>Office &amp; Commercial Cleaning</h3>
+          <p>Recurring service for workspaces that stay open around it — scheduled before your first meeting or after your last one, anywhere from FiDi to Long Island City.</p>
+          <div class="pill-row">
+            <span class="pill">After-hours</span>
+            <span class="pill">Weekend service</span>
+            <span class="pill">Nightly &amp; weekly plans</span>
+          </div>
+        </div>
+        <div class="service-photos">
+          <img class="photo-main" src="assets/office-2.jpg" alt="Open-plan office floor, cleaned" />
+          <img class="photo-accent" src="assets/office-1.jpg" alt="Executive lounge, cleaned" />
+        </div>
+      </div>
+
+      <!-- Post-Construction -->
+      <div class="service-row" id="pc-03">
+        <div class="service-text">
+          <span class="bracket">[ 03 / POST&#8209;CONSTRUCTION ]</span>
+          <h3>Post-Construction Cleaning</h3>
+          <p>From rough clean to final walkthrough — dust, debris and finish detailing handled so the space is ready to hand over, on any timeline a New York build site runs.</p>
+          <div class="pill-row">
+            <span class="pill">Rough clean</span>
+            <span class="pill">Final clean</span>
+            <span class="pill">Touch-up</span>
+          </div>
+        </div>
+        <div class="service-photos">
+          <img class="photo-main" src="assets/post-1.jpg" alt="Kitchen mid-renovation, dust and debris cleared during a rough clean" />
+          <img class="photo-accent" src="assets/post-2.jpg" alt="Open commercial floor after a post-construction rough clean" />
+        </div>
+      </div>
+
+      <!-- Reserved -->
+      <div class="service-row flip">
+        <div class="service-text">
+          <span class="bracket">[ 04 / RESERVED ]</span>
+          <h3>Next service, on the way</h3>
+          <p>This slot is held for a fourth line — send over the photos and details, and it'll get the same treatment as the rest.</p>
+        </div>
+        <div class="service-photos reserved">
+          <div class="plus">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </div>
+          <span>AWAITING PHOTOS<br/>SERVICE TBD</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROCESS ============ -->
+  <section class="section" id="process">
+    <div class="wrap">
+      <div class="section-top">
+        <span class="bracket">[ 03 ]</span>
+        <span class="bracket">[ HOW IT WORKS ]</span>
+      </div>
+      <h2>How a job runs.</h2>
+
+      <div class="process-grid">
+        <ol class="process-list">
+          <li>
+            <span class="ghost">01</span>
+            <div class="body"><h3>Book</h3><p>Pick a service and a window — same-day slots most weeks, anywhere from the Bronx to Staten Island.</p></div>
+            <span class="pill">10 min</span>
+          </li>
+          <li>
+            <span class="ghost">02</span>
+            <div class="body"><h3>Walkthrough</h3><p>We confirm scope on-site or by photo, so the checklist matches your space exactly.</p></div>
+            <span class="pill">15 min</span>
+          </li>
+          <li>
+            <span class="ghost">03</span>
+            <div class="body"><h3>Clean</h3><p>The crew works the same numbered checklist every time, start to finish.</p></div>
+            <span class="pill">1&ndash;3 hrs</span>
+          </li>
+          <li>
+            <span class="ghost">04</span>
+            <div class="body"><h3>Sign-off</h3><p>A final walkthrough together, and the job's marked complete.</p></div>
+            <span class="pill">5 min</span>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TRUST ============ -->
+  <section class="section trust" id="trust">
+    <div class="wrap">
+      <div class="section-top">
+        <span class="bracket">[ 04 ]</span>
+        <span class="bracket">[ WHY CLARITY ]</span>
+      </div>
+      <h2>Standard practice, not a promise.</h2>
+      <div class="pill-row big">
+        <span class="pill">Licensed, bonded &amp; insured</span>
+        <span class="pill">Eco-conscious products available</span>
+        <span class="pill">Flexible scheduling, 7 days a week</span>
+        <span class="pill">Re-clean guarantee</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="section" id="contact">
+    <div class="wrap">
+      <div class="section-top">
+        <span class="bracket">[ 05 ]</span>
+        <span class="bracket">[ GET A QUOTE ]</span>
+      </div>
+      <h2>Tell us the space, we'll send a plan.</h2>
+
+      <div class="contact-grid">
+        <div class="contact-card">
+          <span class="bracket">Contact</span>
+          <h3>Clarity Cleaning Co.</h3>
+          <dl>
+            <div><dt>Phone</dt><dd><a href="tel:+12125550147">(212) 555-0147</a></dd></div>
+            <div><dt>Email</dt><dd><a href="mailto:hello@clarityclean.example">hello@clarityclean.example</a></dd></div>
+            <div><dt>Service area</dt><dd>Manhattan, Brooklyn, Queens, the Bronx &amp; Staten Island</dd></div>
+            <div><dt>Hours</dt><dd>Mon&ndash;Sat, 7:00&ndash;19:00</dd></div>
+          </dl>
+        </div>
+
+        <form class="quote-form" id="quoteForm">
+          <div class="form-row two">
+            <div><label for="qName">Name</label><input id="qName" type="text" required autocomplete="name" /></div>
+            <div><label for="qPhone">Phone</label><input id="qPhone" type="tel" required autocomplete="tel" /></div>
+          </div>
+          <div class="form-row two">
+            <div><label for="qEmail">Email</label><input id="qEmail" type="email" required autocomplete="email" /></div>
+            <div>
+              <label for="qService">Service</label>
+              <select id="qService" required>
+                <option value="">Choose one</option>
+                <option>Residential</option>
+                <option>Commercial</option>
+                <option>Post-Construction</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div><label for="qMsg">Space details</label><textarea id="qMsg" placeholder="Neighborhood, square footage, preferred date..."></textarea></div>
+          </div>
+          <div class="form-foot">
+            <button class="btn-pill hover-fill" type="submit">
+              <span class="hb-label hb-label-default">Send request</span>
+              <span class="hb-label hb-label-hover">
+                Send request
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </span>
+            </button>
+            <span class="form-note">Opens an email to Clarity with your details filled in.</span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="row">
+      <a class="brand" href="#top" style="font-size:16px;"><span class="mark" style="width:26px;height:26px;font-size:13px;">C</span> CLARITY</a>
+      <nav>
+        <a href="#services">Services</a>
+        <a href="#process">Process</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+    <p class="fine">&copy; <span id="yr"></span> Clarity Cleaning Co. &middot; Licensed &amp; insured &middot; Serving all five boroughs &middot; Placeholder contact details &mdash; update before launch.</p>
+  </div>
+</footer>
+</div>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  document.getElementById('quoteForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = document.getElementById('qName').value;
+    var phone = document.getElementById('qPhone').value;
+    var email = document.getElementById('qEmail').value;
+    var service = document.getElementById('qService').value;
+    var msg = document.getElementById('qMsg').value;
+    var subject = 'Quote request: ' + (service || 'Cleaning service');
+    var body = 'Name: ' + name + '\nPhone: ' + phone + '\nEmail: ' + email + '\nService: ' + service + '\n\nDetails:\n' + msg;
+    window.location.href = 'mailto:hello@clarityclean.example?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+  });
+</script>
