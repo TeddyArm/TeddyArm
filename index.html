@@ -124,6 +124,12 @@
   @keyframes rise{ from{ opacity: 0; transform: translateY(12px);} to{ opacity:1; transform: translateY(0);} }
   .rise{ animation: rise .65s cubic-bezier(.2,.7,.2,1) both; }
   .rise-1{ animation-delay: .02s; } .rise-2{ animation-delay: .1s; }
+  @keyframes wordIn{
+    from{ opacity: 0; transform: translateY(.45em); filter: blur(10px); }
+    to{ opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
+  .word-in{ display: inline-block; animation: wordIn .8s cubic-bezier(.2,.7,.2,1) both; }
+  .gw{ display: inline-block; }
   .rise-3{ animation-delay: .18s; } .rise-4{ animation-delay: .26s; }
 
   /* ---------- header ---------- */
@@ -152,7 +158,18 @@
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     text-align: center; padding-block: 48px 0;
   }
-  .hero-inner{ display: flex; flex-direction: column; align-items: center; max-width: 780px; margin-inline: auto; padding-inline: 24px; }
+  .hero-grid{ position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  .hero-grid span{
+    position: absolute; top: 0; bottom: 0; width: 1px; background: var(--line);
+    transform-origin: top; transform: scaleY(0); animation: growLine 1.4s cubic-bezier(.65,0,.35,1) forwards;
+  }
+  .hero-grid span:nth-child(1){ left: 8%; animation-delay: 0s; }
+  .hero-grid span:nth-child(2){ left: 35%; animation-delay: .1s; }
+  .hero-grid span:nth-child(3){ left: 65%; animation-delay: .2s; }
+  .hero-grid span:nth-child(4){ left: 92%; animation-delay: .3s; }
+  @keyframes growLine{ to{ transform: scaleY(1); } }
+
+  .hero-inner{ position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; max-width: 780px; margin-inline: auto; padding-inline: 24px; }
   .tagline-pill{
     display: inline-flex; align-items: center; font-family: var(--font-mono); font-size: 12px;
     letter-spacing: .05em; color: var(--ink-soft); border: 1px solid var(--line);
@@ -167,7 +184,7 @@
   .hero .btn-pill{ margin-top: 30px; padding: 15px 30px; font-size: 15px; }
 
   .marquee-wrap{
-    position: relative; width: 100%; margin-top: 56px;
+    position: relative; z-index: 1; width: 100%; margin-top: 56px;
     height: clamp(160px, 24vh, 260px);
     -webkit-mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
             mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
@@ -226,12 +243,14 @@
   .service-photos{ position: relative; aspect-ratio: 6/5; }
   .photo-main{
     position: absolute; inset: 0; width: 88%; height: 82%; object-fit: cover;
-    border-radius: 18px; box-shadow: var(--shadow);
+    border-radius: 18px; box-shadow: var(--shadow); transition: transform .6s ease;
   }
+  .photo-main:hover{ transform: scale(1.03); }
   .photo-accent{
     position: absolute; right: 0; bottom: 0; width: 46%; height: 46%; object-fit: cover;
-    border-radius: 14px; box-shadow: var(--shadow); border: 6px solid var(--bg);
+    border-radius: 14px; box-shadow: var(--shadow); border: 6px solid var(--bg); transition: transform .6s ease;
   }
+  .photo-accent:hover{ transform: scale(1.05); }
   .photo-tag{
     position: absolute; left: 14px; bottom: 14px; z-index: 2;
     background: rgba(21,20,15,.72); color: #F3F1E9; backdrop-filter: blur(6px);
@@ -314,19 +333,20 @@
 <main>
   <!-- ============ HERO (animated marquee) ============ -->
   <section class="hero" id="top">
+    <div class="hero-grid" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
     <div class="hero-inner">
       <span class="tagline-pill rise rise-1">[ SERVING ALL 5 BOROUGHS ]</span>
       <h1>
-        <span class="word rise" style="animation-delay:.08s">One</span>
-        <span class="word rise" style="animation-delay:.14s">clean</span>
-        <span class="word rise" style="animation-delay:.20s">standard,</span>
+        <span class="word word-in" style="animation-delay:.55s">One</span>
+        <span class="word word-in" style="animation-delay:.65s">clean</span>
+        <span class="word word-in" style="animation-delay:.75s">standard,</span>
         <br/>
-        <span class="word rise" style="animation-delay:.26s">across</span>
-        <span class="word rise" style="animation-delay:.32s">every</span>
-        <span class="word rise" style="animation-delay:.38s">borough.</span>
+        <span class="word word-in" style="animation-delay:.85s">across</span>
+        <span class="word word-in" style="animation-delay:.95s">every</span>
+        <span class="word word-in" style="animation-delay:1.05s">borough.</span>
       </h1>
-      <p class="hero-desc rise" style="animation-delay:.5s">More than a wipe-down — Clarity crews run the same numbered checklist on every visit, whether it's a Tribeca loft or a Long Island City office floor.</p>
-      <a class="btn-pill hover-fill rise" style="animation-delay:.6s" href="#contact">
+      <p class="hero-desc rise" style="animation-delay:1.3s">More than a wipe-down — Clarity crews run the same numbered checklist on every visit, whether it's a Tribeca loft or a Long Island City office floor.</p>
+      <a class="btn-pill hover-fill rise" style="animation-delay:1.5s" href="#contact">
         <span class="hb-label hb-label-default">Book a Clean</span>
         <span class="hb-label hb-label-hover">
           Book a Clean
@@ -599,10 +619,37 @@
       });
     }
 
-    revealEach('#process .section-top, #process h2');
-    revealEach('#services .section-top, #services h2');
-    revealEach('#trust .section-top, #trust h2');
-    revealEach('#contact .section-top, #contact h2');
+    function splitWords(el){
+      var text = el.textContent;
+      el.textContent = '';
+      var parts = text.split(' ');
+      parts.forEach(function(w, i){
+        var span = document.createElement('span');
+        span.className = 'gw';
+        span.textContent = w;
+        el.appendChild(span);
+        if (i < parts.length - 1) el.appendChild(document.createTextNode(' '));
+      });
+    }
+
+    function revealWords(selector){
+      document.querySelectorAll(selector).forEach(function(h){
+        splitWords(h);
+        var words = h.querySelectorAll('.gw');
+        gsap.set(words, { opacity: 0, y: '0.45em', filter: 'blur(10px)' });
+        gsap.to(words, {
+          opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.8, ease: 'power2.out',
+          stagger: 0.07,
+          scrollTrigger: { trigger: h, start: 'top 88%', once: true }
+        });
+      });
+    }
+
+    revealEach('#process .section-top');
+    revealEach('#services .section-top');
+    revealEach('#trust .section-top');
+    revealEach('#contact .section-top');
+    revealWords('#process h2, #services h2, #trust h2, #contact h2');
     revealEach('.service-row');
     revealEach('.process-list li', 0.08);
     revealEach('.pill-row.big .pill', 0.06);
