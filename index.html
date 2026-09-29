@@ -75,7 +75,7 @@
     opacity: .035; mix-blend-mode: overlay;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
-  @media (prefers-reduced-motion: reduce){ .grain{ opacity: .025; } }
+  @media (prefers-reduced-motion: reduce){ .grain{ opacity: .03; } }
 
   .canvas{
     background: var(--bg);
@@ -152,13 +152,13 @@
   header.site{
     position: sticky; top: 12px; z-index: 40;
     display: flex; align-items: center; justify-content: space-between;
-    gap: 20px; padding-block: 12px; border-radius: 999px;
-    transition: background .4s ease, box-shadow .4s ease, backdrop-filter .4s ease, padding .4s ease;
+    gap: 20px; padding-block: 12px; padding-inline: 18px; border-radius: 999px;
+    transition: background .4s ease, box-shadow .4s ease, backdrop-filter .4s ease;
   }
   header.site.scrolled{
     background: color-mix(in srgb, var(--bg) 80%, transparent);
     backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-    box-shadow: var(--shadow); padding-inline: 18px;
+    box-shadow: var(--shadow);
   }
   #scroll-sentinel{ height: 1px; }
   .brand{
@@ -316,14 +316,14 @@
   .contact-card .bracket{ color: #A79F8A; }
   .contact-card h3{ color: #F3F1E9; margin-top: 10px; font-size: 21px; }
   .contact-card dl{ margin: 24px 0 0; display: grid; gap: 15px; }
-  .contact-card dt{ font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .07em; color: #948E7C; text-transform: uppercase; }
+  .contact-card dt{ font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .07em; color: #948E7C; text-transform: uppercase; }
   .contact-card dd{ margin: 4px 0 0; font-size: 15px; }
   .contact-card dd a{ color: inherit; text-decoration: none; }
   .contact-card dd a:hover{ text-decoration: underline; }
 
   form.quote-form{
     background: var(--surface); border-radius: 20px; padding: 30px 26px;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.6), var(--shadow); border: 1px solid var(--line);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.6), var(--shadow);
   }
   .form-row{ display: grid; gap: 16px; grid-template-columns: 1fr; margin-bottom: 16px; }
   @media (min-width: 540px){ .form-row.two{ grid-template-columns: 1fr 1fr; } }
@@ -443,8 +443,8 @@
           </div>
         </div>
         <div class="service-photos">
-          <img class="photo-main" src="assets/home-1.jpg" alt="Living and dining room, cleaned" />
-          <img class="photo-accent" src="assets/home-2.jpg" alt="Bedroom, cleaned and staged" />
+          <img class="photo-main" src="assets/home-1.jpg" alt="Living and dining room, cleaned" loading="lazy" />
+          <img class="photo-accent" src="assets/home-2.jpg" alt="Bedroom, cleaned and staged" loading="lazy" />
         </div>
       </div>
 
@@ -461,8 +461,8 @@
           </div>
         </div>
         <div class="service-photos">
-          <img class="photo-main" src="assets/office-2.jpg" alt="Open-plan office floor, cleaned" />
-          <img class="photo-accent" src="assets/office-1.jpg" alt="Executive lounge, cleaned" />
+          <img class="photo-main" src="assets/office-2.jpg" alt="Open-plan office floor, cleaned" loading="lazy" />
+          <img class="photo-accent" src="assets/office-1.jpg" alt="Executive lounge, cleaned" loading="lazy" />
         </div>
       </div>
 
@@ -479,8 +479,8 @@
           </div>
         </div>
         <div class="service-photos">
-          <img class="photo-main" src="assets/post-1.jpg" alt="Kitchen mid-renovation, dust and debris cleared during a rough clean" />
-          <img class="photo-accent" src="assets/post-2.jpg" alt="Open commercial floor after a post-construction rough clean" />
+          <img class="photo-main" src="assets/post-1.jpg" alt="Kitchen mid-renovation, dust and debris cleared during a rough clean" loading="lazy" />
+          <img class="photo-accent" src="assets/post-2.jpg" alt="Open commercial floor after a post-construction rough clean" loading="lazy" />
         </div>
       </div>
 
