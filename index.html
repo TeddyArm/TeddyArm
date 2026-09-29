@@ -168,6 +168,21 @@
   .word-in{ display: inline-block; animation: wordIn 1s cubic-bezier(.2,.7,.2,1) both; }
   .rise-3{ animation-delay: .18s; } .rise-4{ animation-delay: .26s; }
 
+  /* ---------- scroll reveal (same treatment as the hero load-in) ---------- */
+  .reveal{
+    opacity: 0; transform: translateY(24px);
+    transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);
+  }
+  .reveal.in-view{ opacity: 1; transform: translateY(0); }
+  .reveal-words .gw{
+    display: inline-block; opacity: 0; transform: translateY(.45em); filter: blur(10px);
+    transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1), filter .8s cubic-bezier(.2,.7,.2,1);
+  }
+  .reveal-words.in-view .gw{ opacity: 1; transform: translateY(0); filter: blur(0); }
+  @media (prefers-reduced-motion: reduce){
+    .reveal, .reveal-words .gw{ transition: none !important; opacity: 1 !important; transform: none !important; filter: none !important; }
+  }
+
   /* ---------- header ---------- */
   header.site{
     position: sticky; top: 12px; z-index: 40;
@@ -488,14 +503,14 @@
   <!-- ============ SERVICES ============ -->
   <section class="section" id="services">
     <div class="wrap">
-      <div class="section-top">
+      <div class="section-top reveal">
         <span class="bracket">[ 02 ]</span>
         <span class="bracket">[ WHAT WE CLEAN ]</span>
       </div>
-      <h2>Built for how New York lives and works.</h2>
+      <h2 class="reveal-words">Built for how New York lives and works.</h2>
 
       <!-- Residential -->
-      <div class="service-row" id="residential">
+      <div class="service-row reveal" id="residential">
         <div class="service-text">
           <span class="bracket">[ 01 / RESIDENTIAL ]</span>
           <h3>House &amp; Apartment Cleaning</h3>
@@ -514,7 +529,7 @@
       </div>
 
       <!-- Commercial -->
-      <div class="service-row flip" id="commercial">
+      <div class="service-row flip reveal" id="commercial">
         <div class="service-text">
           <span class="bracket">[ 02 / COMMERCIAL ]</span>
           <h3>Office &amp; Commercial Cleaning</h3>
@@ -532,7 +547,7 @@
       </div>
 
       <!-- Post-Construction -->
-      <div class="service-row" id="pc-03">
+      <div class="service-row reveal" id="pc-03">
         <div class="service-text">
           <span class="bracket">[ 03 / POST&#8209;CONSTRUCTION ]</span>
           <h3>Post-Construction Cleaning</h3>
@@ -550,7 +565,7 @@
       </div>
 
       <!-- Reserved -->
-      <div class="service-row flip">
+      <div class="service-row flip reveal">
         <div class="service-text">
           <span class="bracket">[ 04 / RESERVED ]</span>
           <h3>Next service, on the way</h3>
@@ -569,30 +584,30 @@
   <!-- ============ PROCESS ============ -->
   <section class="section" id="process">
     <div class="wrap">
-      <div class="section-top">
+      <div class="section-top reveal">
         <span class="bracket">[ 03 ]</span>
         <span class="bracket">[ HOW IT WORKS ]</span>
       </div>
-      <h2>How a job runs.</h2>
+      <h2 class="reveal-words">How a job runs.</h2>
 
       <div class="process-grid">
         <ol class="process-list">
-          <li>
+          <li class="reveal">
             <span class="ghost">01</span>
             <div class="body"><h3>Book</h3><p>Pick a service and a window — same-day slots most weeks, anywhere from the Bronx to Staten Island.</p></div>
             <span class="pill">10 min</span>
           </li>
-          <li>
+          <li class="reveal">
             <span class="ghost">02</span>
             <div class="body"><h3>Walkthrough</h3><p>We confirm scope on-site or by photo, so the checklist matches your space exactly.</p></div>
             <span class="pill">15 min</span>
           </li>
-          <li>
+          <li class="reveal">
             <span class="ghost">03</span>
             <div class="body"><h3>Clean</h3><p>The crew works the same numbered checklist every time, start to finish.</p></div>
             <span class="pill">1&ndash;3 hrs</span>
           </li>
-          <li>
+          <li class="reveal">
             <span class="ghost">04</span>
             <div class="body"><h3>Sign-off</h3><p>A final walkthrough together, and the job's marked complete.</p></div>
             <span class="pill">5 min</span>
@@ -605,12 +620,12 @@
   <!-- ============ TRUST ============ -->
   <section class="section trust" id="trust">
     <div class="wrap">
-      <div class="section-top">
+      <div class="section-top reveal">
         <span class="bracket">[ 04 ]</span>
         <span class="bracket">[ WHY CLARITY ]</span>
       </div>
-      <h2>Standard practice, not a promise.</h2>
-      <div class="pill-row big">
+      <h2 class="reveal-words">Standard practice, not a promise.</h2>
+      <div class="pill-row big reveal">
         <span class="pill">Licensed, bonded &amp; insured</span>
         <span class="pill">Eco-conscious products available</span>
         <span class="pill">Flexible scheduling, 7 days a week</span>
@@ -622,14 +637,14 @@
   <!-- ============ CONTACT ============ -->
   <section class="section" id="contact">
     <div class="wrap">
-      <div class="section-top">
+      <div class="section-top reveal">
         <span class="bracket">[ 05 ]</span>
         <span class="bracket">[ GET A QUOTE ]</span>
       </div>
-      <h2>Tell us the space, we'll send a plan.</h2>
+      <h2 class="reveal-words">Tell us the space, we'll send a plan.</h2>
 
       <div class="contact-grid">
-        <div class="contact-card">
+        <div class="contact-card reveal">
           <span class="bracket">Contact</span>
           <h3>Clarity Cleaning Co.</h3>
           <dl>
@@ -640,7 +655,7 @@
           </dl>
         </div>
 
-        <form class="quote-form" id="quoteForm">
+        <form class="quote-form reveal" id="quoteForm">
           <div class="form-row two">
             <div><label for="qName">Name</label><input id="qName" name="name" type="text" required autocomplete="name" /></div>
             <div><label for="qPhone">Phone</label><input id="qPhone" name="phone" type="tel" required autocomplete="tel" /></div>
@@ -693,6 +708,49 @@
 
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
+
+  (function(){
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var revealEls = document.querySelectorAll('.reveal, .reveal-words');
+
+    if (reduceMotion || !('IntersectionObserver' in window)){
+      revealEls.forEach(function(el){ el.classList.add('in-view'); });
+      return;
+    }
+
+    document.querySelectorAll('.reveal-words').forEach(function(h){
+      var text = h.textContent;
+      h.textContent = '';
+      var words = text.split(' ');
+      words.forEach(function(w, i){
+        var span = document.createElement('span');
+        span.className = 'gw';
+        span.textContent = w;
+        span.style.transitionDelay = (i * 0.06) + 's';
+        h.appendChild(span);
+        if (i < words.length - 1) h.appendChild(document.createTextNode(' '));
+      });
+    });
+
+    function stagger(selector, step){
+      document.querySelectorAll(selector).forEach(function(el, i){
+        el.style.transitionDelay = ((i % 6) * step) + 's';
+      });
+    }
+    stagger('.process-list li.reveal', 0.08);
+    stagger('.service-row.reveal', 0.06);
+
+    var observer = new IntersectionObserver(function(entries, obs){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add('in-view');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
+
+    revealEls.forEach(function(el){ observer.observe(el); });
+  })();
 
   (function(){
     var toggle = document.querySelector('.nav-toggle');
