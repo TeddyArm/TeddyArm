@@ -3,11 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#16140F">
 <title>Clarity Cleaning Co.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800;900&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800;900&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
-
   :root{
+    color-scheme: light dark;
     --frame: #16140F;
 
     --bg: #F6F3EC;
@@ -30,6 +33,7 @@
 
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
+      color-scheme: dark;
       --bg: #1B1912;
       --surface: #221F17;
       --surface-2: #29261A;
@@ -45,6 +49,7 @@
     }
   }
   :root[data-theme="dark"]{
+    color-scheme: dark;
     --bg: #1B1912;
     --surface: #221F17;
     --surface-2: #29261A;
@@ -59,7 +64,7 @@
     --shadow: 0 1px 2px rgba(0,0,0,.5), 0 18px 40px -22px rgba(0,0,0,.7);
   }
 
-  *{ box-sizing: border-box; }
+  *{ box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html{ scroll-behavior: smooth; }
   @media (prefers-reduced-motion: reduce){ html{ scroll-behavior: auto; } *{ animation-duration: .001ms !important; animation-iteration-count: 1 !important; } }
 
@@ -74,6 +79,14 @@
     padding: 18px;
   }
   @media (max-width: 640px){ body{ padding: 10px; } }
+
+  .skip-link{
+    position: absolute; left: 12px; top: -60px; z-index: 100;
+    background: var(--ink); color: var(--bg); padding: 10px 18px; border-radius: 999px;
+    text-decoration: none; font-family: var(--font-body); font-weight: 700; font-size: 0.875rem;
+    transition: top .2s ease;
+  }
+  .skip-link:focus{ top: 12px; }
 
   .grain{
     position: fixed; inset: 0; z-index: 60; pointer-events: none;
@@ -123,6 +136,7 @@
     padding: 13px 24px; border-radius: 999px; border: none;
     text-decoration: none; cursor: pointer; white-space: nowrap;
     transition: transform .35s cubic-bezier(.2,.7,.2,1), filter .2s ease;
+    touch-action: manipulation;
   }
   .btn-pill:hover{ filter: brightness(1.12); }
   .btn-pill:active{ transform: scale(.96) !important; }
@@ -185,6 +199,7 @@
     display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
     width: 38px; height: 38px; border-radius: 999px; border: 1px solid var(--line);
     background: var(--surface); padding: 0; cursor: pointer; flex: none;
+    touch-action: manipulation;
   }
   .nav-toggle:hover{ background: var(--surface-2); }
   .nav-toggle-bar{
@@ -210,7 +225,7 @@
 
   /* ---------- hero (animated marquee) ---------- */
   .hero{
-    position: relative; overflow: hidden;
+    position: relative; overflow: hidden; scroll-margin-top: 90px;
     min-height: clamp(560px, 82vh, 860px);
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     text-align: center; padding-block: 48px 0;
@@ -257,6 +272,7 @@
     position: absolute; inset: 0; display: flex; align-items: center; gap: 16px; width: max-content;
     animation: marquee 46s linear infinite;
   }
+  .marquee-wrap:hover .marquee-track{ animation-play-state: paused; }
   @keyframes marquee{ from{ transform: translateX(0); } to{ transform: translateX(-50%); } }
   .marquee-card{
     flex: none; aspect-ratio: 3/4; height: clamp(140px, 20vh, 220px);
@@ -268,7 +284,7 @@
   .marquee-card:nth-child(even){ rotate: 3deg; }
 
   /* ---------- section scaffolding ---------- */
-  .section{ padding-block: 68px; border-top: 1px solid var(--line); }
+  .section{ padding-block: 68px; border-top: 1px solid var(--line); scroll-margin-top: 90px; }
   .section-top{ display: flex; align-items: center; justify-content: space-between; }
   .section h2{ font-size: clamp(1.75rem, 4vw, 2.75rem); margin-top: 14px; max-width: 16ch; }
   #services h2{ font-size: clamp(2rem, 4.2vw, 3.25rem); max-width: 30ch; margin-inline: auto; text-align: center; white-space: normal; }
@@ -292,6 +308,7 @@
   .service-row{
     display: grid; gap: 40px; align-items: center;
     padding-block: 44px; border-top: 1px solid var(--line);
+    scroll-margin-top: 90px;
   }
   .service-row:last-child{ border-bottom: 1px solid var(--line); }
   @media (min-width: 900px){
@@ -363,7 +380,7 @@
     background: var(--surface-2); border: 1px solid transparent; border-radius: 12px;
     padding: 12px 14px;
   }
-  input:focus, select:focus, textarea:focus{ outline: 2px solid var(--accent); outline-offset: 1px; }
+  input:focus-visible, select:focus-visible, textarea:focus-visible{ outline: 2px solid var(--accent); outline-offset: 1px; }
   textarea{ resize: vertical; min-height: 92px; }
   .form-foot{ display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 8px; }
   .form-note{ font-size: 0.75rem; color: var(--ink-soft); max-width: 32ch; }
@@ -379,6 +396,7 @@
 </head>
 <body>
 
+<a class="skip-link" href="#top">Skip to content</a>
 <div class="grain" aria-hidden="true"></div>
 <div class="canvas">
 <div class="wrap">
@@ -392,9 +410,9 @@
     </nav>
     <div class="header-actions">
       <a class="btn-pill hover-fill" href="#contact">
-        <span class="hb-label hb-label-default">Book a clean</span>
+        <span class="hb-label hb-label-default">Book a Clean</span>
         <span class="hb-label hb-label-hover" aria-hidden="true">
-          Book a clean
+          Book a Clean
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </span>
       </a>
@@ -416,7 +434,7 @@
 <div id="scroll-sentinel" aria-hidden="true"></div>
 <main>
   <!-- ============ HERO (animated marquee) ============ -->
-  <section class="hero" id="top">
+  <section class="hero" id="top" tabindex="-1">
     <div class="hero-mesh" aria-hidden="true"></div>
     <div class="hero-grid" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
     <div class="hero-inner">
@@ -442,7 +460,7 @@
 
     <div class="marquee-wrap">
       <div class="marquee-track">
-        <div class="marquee-card"><img src="assets/nyc-skyline.jpg" alt="New York City skyline at dusk" /></div>
+        <div class="marquee-card"><img src="assets/nyc-skyline.jpg" alt="New York City skyline at dusk" fetchpriority="high" /></div>
         <div class="marquee-card"><img src="assets/home-1.jpg" alt="Living room, cleaned" /></div>
         <div class="marquee-card"><img src="assets/office-2.jpg" alt="Open-plan office floor, cleaned" /></div>
         <div class="marquee-card"><img src="assets/nyc-liberty.jpg" alt="Statue of Liberty and Manhattan skyline at sunset" /></div>
@@ -538,7 +556,7 @@
         </div>
         <div class="service-photos reserved">
           <div class="plus">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
           </div>
           <span>AWAITING PHOTOS<br/>SERVICE TBD</span>
         </div>
@@ -622,14 +640,14 @@
 
         <form class="quote-form" id="quoteForm">
           <div class="form-row two">
-            <div><label for="qName">Name</label><input id="qName" type="text" required autocomplete="name" /></div>
-            <div><label for="qPhone">Phone</label><input id="qPhone" type="tel" required autocomplete="tel" /></div>
+            <div><label for="qName">Name</label><input id="qName" name="name" type="text" required autocomplete="name" /></div>
+            <div><label for="qPhone">Phone</label><input id="qPhone" name="phone" type="tel" required autocomplete="tel" /></div>
           </div>
           <div class="form-row two">
-            <div><label for="qEmail">Email</label><input id="qEmail" type="email" required autocomplete="email" /></div>
+            <div><label for="qEmail">Email</label><input id="qEmail" name="email" type="email" required autocomplete="email" spellcheck="false" /></div>
             <div>
               <label for="qService">Service</label>
-              <select id="qService" required>
+              <select id="qService" name="service" required>
                 <option value="">Choose one</option>
                 <option>Residential</option>
                 <option>Commercial</option>
@@ -638,7 +656,7 @@
             </div>
           </div>
           <div class="form-row">
-            <div><label for="qMsg">Space details</label><textarea id="qMsg" placeholder="Neighborhood, square footage, preferred date..."></textarea></div>
+            <div><label for="qMsg">Space details</label><textarea id="qMsg" name="message" placeholder="Neighborhood, square footage, preferred date…"></textarea></div>
           </div>
           <div class="form-foot">
             <button class="btn-pill hover-fill" type="submit">
