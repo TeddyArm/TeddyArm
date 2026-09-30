@@ -23,6 +23,7 @@
     --accent: #2E5C43;
     --accent-ink: #F3F6F1;
     --accent-soft: #E1E9E1;
+    --ghost: #E9E3D3;
     --panel-soft: color-mix(in srgb, var(--bg) 62%, var(--ink) 38%);
     --shadow: 0 1px 2px rgba(21,20,15,.05), 0 18px 40px -22px rgba(21,20,15,.35);
 
@@ -44,6 +45,7 @@
       --accent: #6FBF98;
       --accent-ink: #0E1712;
       --accent-soft: #24352B;
+      --ghost: #262316;
       --shadow: 0 1px 2px rgba(0,0,0,.5), 0 18px 40px -22px rgba(0,0,0,.7);
     }
   }
@@ -59,6 +61,7 @@
     --accent: #6FBF98;
     --accent-ink: #0E1712;
     --accent-soft: #24352B;
+    --ghost: #262316;
     --shadow: 0 1px 2px rgba(0,0,0,.5), 0 18px 40px -22px rgba(0,0,0,.7);
   }
 
@@ -303,6 +306,20 @@
   .section h2{ font-size: clamp(1.75rem, 4vw, 2.75rem); margin-top: 14px; max-width: 16ch; }
   #services h2{ font-size: clamp(2rem, 4.2vw, 3.25rem); max-width: 30ch; margin-inline: auto; text-align: center; white-space: normal; }
 
+  /* ---------- process ---------- */
+  .process-grid{ position: relative; margin-top: 44px; }
+  .process-list{ list-style: none; margin: 0; padding: 0; }
+  .process-list li{
+    display: flex; align-items: center; gap: 20px;
+    padding-block: 24px; border-top: 1px solid var(--line);
+  }
+  .process-list li:last-child{ border-bottom: 1px solid var(--line); }
+  .ghost{ font-family: var(--font-display); font-weight: 800; font-size: clamp(2.5rem, 6vw, 4rem); color: var(--ghost); line-height: 1; flex: none; width: 1.3em; }
+  .process-list .body{ flex: 1; min-width: 0; }
+  .process-list h3{ font-size: 1.1875rem; font-weight: 700; }
+  .process-list p{ margin-top: 6px; font-size: 0.875rem; color: var(--ink-soft); max-width: 46ch; }
+  .process-list .pill{ flex: none; }
+
   /* ---------- services ---------- */
   .service-row{
     display: grid; gap: 40px; align-items: center;
@@ -404,7 +421,8 @@
     <nav class="primary" aria-label="Primary">
       <a href="#residential">Residential</a><span>&middot;</span>
       <a href="#commercial">Commercial</a><span>&middot;</span>
-      <a href="#pc-03">Post&#8209;Construction</a>
+      <a href="#pc-03">Post&#8209;Construction</a><span>&middot;</span>
+      <a href="#process">Process</a>
     </nav>
     <div class="header-actions">
       <a class="btn-pill hover-fill" href="#contact">
@@ -425,6 +443,7 @@
     <a href="#residential">Residential</a>
     <a href="#commercial">Commercial</a>
     <a href="#pc-03">Post&#8209;Construction</a>
+    <a href="#process">Process</a>
   </nav>
 </div>
 
@@ -561,11 +580,47 @@
     </div>
   </section>
 
+  <!-- ============ PROCESS ============ -->
+  <section class="section" id="process">
+    <div class="wrap">
+      <div class="section-top reveal">
+        <span class="bracket">[ 03 ]</span>
+        <span class="bracket">[ HOW IT WORKS ]</span>
+      </div>
+      <h2 class="reveal-words">How a job runs.</h2>
+
+      <div class="process-grid">
+        <ol class="process-list">
+          <li class="reveal">
+            <span class="ghost">01</span>
+            <div class="body"><h3>Book</h3><p>Pick a service and a window — same-day slots most weeks, anywhere from the Bronx to Staten Island.</p></div>
+            <span class="pill">10 min</span>
+          </li>
+          <li class="reveal">
+            <span class="ghost">02</span>
+            <div class="body"><h3>Walkthrough</h3><p>We confirm scope on-site or by photo, so the checklist matches your space exactly.</p></div>
+            <span class="pill">15 min</span>
+          </li>
+          <li class="reveal">
+            <span class="ghost">03</span>
+            <div class="body"><h3>Clean</h3><p>The crew works the same numbered checklist every time, start to finish.</p></div>
+            <span class="pill">1&ndash;3 hrs</span>
+          </li>
+          <li class="reveal">
+            <span class="ghost">04</span>
+            <div class="body"><h3>Sign-off</h3><p>A final walkthrough together, and the job's marked complete.</p></div>
+            <span class="pill">5 min</span>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ TRUST ============ -->
   <section class="section trust" id="trust">
     <div class="wrap">
       <div class="section-top reveal">
-        <span class="bracket">[ 03 ]</span>
+        <span class="bracket">[ 04 ]</span>
         <span class="bracket">[ WHY CLARITY ]</span>
       </div>
       <h2 class="reveal-words">Standard practice, not a promise.</h2>
@@ -582,7 +637,7 @@
   <section class="section" id="contact">
     <div class="wrap">
       <div class="section-top reveal">
-        <span class="bracket">[ 04 ]</span>
+        <span class="bracket">[ 05 ]</span>
         <span class="bracket">[ GET A QUOTE ]</span>
       </div>
       <h2 class="reveal-words">Tell us the space, we'll send a plan.</h2>
@@ -641,6 +696,7 @@
       <a class="brand" href="#top" style="font-size: 1rem;"><span class="mark" style="width:26px;height:26px;font-size: 0.8125rem;">C</span> CLARITY</a>
       <nav aria-label="Footer">
         <a href="#services">Services</a>
+        <a href="#process">Process</a>
         <a href="#contact">Contact</a>
       </nav>
     </div>
