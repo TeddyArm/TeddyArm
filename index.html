@@ -306,7 +306,7 @@
   .section h2{ font-size: clamp(1.75rem, 4vw, 2.75rem); margin-top: 14px; max-width: 16ch; }
   #services h2{ font-size: clamp(2rem, 4.2vw, 3.25rem); max-width: 30ch; margin-inline: auto; text-align: center; white-space: normal; }
 
-  /* ---------- process ---------- */
+  /* ---------- process (legacy list, kept for reference) ---------- */
   .process-grid{ position: relative; margin-top: 44px; }
   .process-list{ list-style: none; margin: 0; padding: 0; }
   .process-list li{
@@ -319,6 +319,182 @@
   .process-list h3{ font-size: 1.1875rem; font-weight: 700; }
   .process-list p{ margin-top: 6px; font-size: 0.875rem; color: var(--ink-soft); max-width: 46ch; }
   .process-list .pill{ flex: none; }
+
+  /* ---------- cinematic scroll (process, sticky-pin parallax) ---------- */
+  .cine-scroll{
+    --cine-mx: 0; --cine-my: 0;
+    --cine-back-opacity: 1; --cine-back-x: 0px; --cine-back-y: 0px; --cine-back-scale: 0.8;
+    --cine-glow-y: 6vh; --cine-glow-scale: 0.82;
+    --cine-mid-y: 14vh;
+    --cine-blur-px: 0px; --cine-back-brightness: 1;
+    --cine-mid-blur-px: 0px; --cine-mid-brightness: 1; --cine-mid-saturation: 1;
+    --cine-shade-opacity: 1; --cine-shade-z: 2;
+    --cine-shade-top-alpha: 0; --cine-shade-mid-alpha: 0; --cine-shade-bottom-alpha: 0;
+    --cine-title-y: 0px; --cine-title-scale: 1; --cine-title-opacity: 1;
+    --cine-hero-x: -50%; --cine-hero-y: 0px; --cine-hero-bottom: 6vh; --cine-hero-width: 46vw; --cine-hero-scale: 1;
+    --cine-split-left-x: -50%; --cine-split-left-y: 0px; --cine-split-left-scale: 1;
+    --cine-split-right-x: -50%; --cine-split-right-y: 0px; --cine-split-right-scale: 1;
+    --cine-close-opacity: 0; --cine-close-x: -50%; --cine-close-y: -50%; --cine-close-scale: 1.06;
+    --cine-intro-y: 0px; --cine-intro-opacity: 1;
+    --cine-panel1-opacity: 0; --cine-panel1-y: calc(-50% + 46px);
+    --cine-panel2-opacity: 0; --cine-panel2-y: calc(-50% + 46px);
+    --cine-cards-controls-opacity: 0;
+    --cine-cards-enter-x: 320vw; --cine-cards-visibility: hidden;
+    --cine-cards-shift: 0px; --cine-cards-scale: 1;
+    --cine-cards-top: clamp(96px, 17vh, 190px);
+    position: relative; height: calc(100vh + 1800px); border-top: 1px solid var(--line); scroll-margin-top: 0;
+  }
+  .cine-stage{ position: sticky; top: 0; height: 100vh; min-height: 560px; overflow: hidden; isolation: isolate; background: var(--frame); }
+  .cine-world{ position: absolute; inset: 0; overflow: hidden; }
+  .cine-layer{
+    position: absolute; display: block; width: 100%; height: 100%; object-fit: cover;
+    user-select: none; -webkit-user-drag: none; pointer-events: none;
+    will-change: transform, opacity, filter;
+  }
+  .cine-sky{ inset: 0; filter: blur(var(--cine-blur-px)) brightness(var(--cine-back-brightness)); }
+  .cine-back{
+    top: 0; bottom: 0; left: -3vw; right: -3vw; width: auto;
+    opacity: var(--cine-back-opacity);
+    transform: translate3d(var(--cine-back-x), var(--cine-back-y), 0) scale(var(--cine-back-scale));
+    transform-origin: 50% 100%;
+  }
+  .cine-glow{
+    top: auto; bottom: 0; left: 50%; right: auto; width: 70%; height: auto; object-fit: contain;
+    opacity: .55; mix-blend-mode: screen;
+    transform: translate3d(-50%, var(--cine-glow-y), 0) scale(var(--cine-glow-scale));
+  }
+  .cine-mid{
+    top: auto; bottom: 0; left: 50%; right: auto; width: 78%; height: auto; object-fit: contain;
+    filter: blur(var(--cine-mid-blur-px)) brightness(var(--cine-mid-brightness)) saturate(var(--cine-mid-saturation));
+    transform: translate3d(-50%, var(--cine-mid-y), 0) scale(.9);
+  }
+  .cine-eyebrow{
+    position: absolute; left: 50%; top: clamp(64px, 14vh, 140px); z-index: 3; margin: 0;
+    transform: translate3d(-50%, 0, 0);
+    display: inline-flex; align-items: center;
+    font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: .05em; white-space: nowrap;
+    padding: 8px 16px; border-radius: 999px;
+    background: var(--bg); color: var(--ink);
+    box-shadow: 0 10px 24px rgba(0,0,0,.18);
+  }
+  .cine-title{
+    position: absolute; left: 50%; top: clamp(108px, 22vh, 220px); width: min(94vw, 1100px); z-index: 3;
+    margin: 0; text-align: center; color: #F3F1E9; font-family: var(--font-display); font-weight: 800;
+    line-height: .85; font-size: clamp(3.2rem, 10vw, 8rem); text-shadow: 0 18px 40px rgba(0,0,0,.35);
+    transform: translate3d(-50%, var(--cine-title-y), 0) scale(var(--cine-title-scale));
+    opacity: var(--cine-title-opacity); will-change: transform, opacity;
+  }
+  .cine-hero-img{
+    left: 50%; bottom: var(--cine-hero-bottom); top: auto; width: min(var(--cine-hero-width), 900px); height: auto; z-index: 4;
+    border-radius: 20px; box-shadow: var(--shadow);
+    transform: translate3d(var(--cine-hero-x), var(--cine-hero-y), 0) scale(var(--cine-hero-scale));
+    transform-origin: 50% 90%;
+  }
+  .cine-split{ left: 50%; bottom: 2vh; top: auto; width: min(56vw, 760px); height: auto; z-index: 6; border-radius: 18px; box-shadow: var(--shadow); }
+  .cine-split-left{ transform: translate3d(var(--cine-split-left-x), var(--cine-split-left-y), 0) scale(var(--cine-split-left-scale)); transform-origin: 70% 60%; }
+  .cine-split-right{ transform: translate3d(var(--cine-split-right-x), var(--cine-split-right-y), 0) scale(var(--cine-split-right-scale)); transform-origin: 30% 60%; }
+  .cine-close{
+    left: 50%; top: 50%; width: min(70vw, 900px); height: auto; z-index: 5; border-radius: 18px; box-shadow: var(--shadow);
+    opacity: var(--cine-close-opacity);
+    transform: translate3d(var(--cine-close-x), var(--cine-close-y), 0) scale(var(--cine-close-scale));
+  }
+  .cine-shade{
+    position: absolute; inset: 0; z-index: var(--cine-shade-z); pointer-events: none; opacity: var(--cine-shade-opacity);
+    background: linear-gradient(180deg,
+      rgba(22, 20, 15, var(--cine-shade-top-alpha)) 0%,
+      rgba(22, 20, 15, var(--cine-shade-mid-alpha)) 48%,
+      rgba(22, 20, 15, var(--cine-shade-bottom-alpha)) 100%);
+  }
+  .cine-intro{
+    position: absolute; left: 50%; bottom: clamp(48px, 24vh, 320px); width: min(520px, calc(100vw - 40px)); z-index: 9;
+    text-align: center; transform: translate3d(-50%, var(--cine-intro-y), 0); opacity: var(--cine-intro-opacity);
+    will-change: transform, opacity;
+  }
+  .cine-intro p{ margin: 0 auto; color: #F3F1E9; font-size: 1.05rem; font-weight: 500; line-height: 1.4; text-shadow: 0 2px 16px rgba(0,0,0,.4); }
+  .cine-tags{ display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 20px; }
+  .cine-tags span{
+    display: inline-flex; align-items: center; min-height: 38px; padding: 0 18px; border-radius: 999px;
+    background: var(--bg); color: var(--ink); font-family: var(--font-mono); font-size: .8rem;
+    box-shadow: 0 10px 24px rgba(0,0,0,.18);
+  }
+  .cine-panel{
+    position: absolute; left: 50%; top: 45%; width: min(640px, calc(100vw - 42px)); z-index: 10;
+    text-align: center; pointer-events: none; transform: translate3d(-50%, -50%, 0); will-change: transform, opacity;
+  }
+  .cine-panel h3{ margin: 0; color: #F3F1E9; font-family: var(--font-display); font-weight: 800; font-size: clamp(2rem, 4.5vw, 3.4rem); line-height: .98; text-shadow: 0 14px 32px rgba(0,0,0,.35); }
+  .cine-panel p{ width: min(440px, 100%); margin: 20px auto 0; color: #F3F1E9; font-size: 1rem; font-weight: 500; line-height: 1.4; text-shadow: 0 2px 16px rgba(0,0,0,.4); }
+  .cine-panel-1{ top: 58%; opacity: var(--cine-panel1-opacity); transform: translate3d(-50%, var(--cine-panel1-y), 0); }
+  .cine-panel-2{ top: 30%; opacity: var(--cine-panel2-opacity); transform: translate3d(-50%, var(--cine-panel2-y), 0); }
+  .cine-facts{ display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 48px; width: min(360px, 100%); margin: 44px auto 0; }
+  .cine-facts dt{ color: #F3F1E9; font-family: var(--font-display); font-weight: 800; font-size: clamp(2rem, 4vw, 3rem); line-height: .9; text-shadow: 0 12px 28px rgba(0,0,0,.35); }
+  .cine-facts dd{ margin: 10px 0 0; color: #F3F1E9; font-size: .85rem; font-weight: 500; line-height: 1.3; text-shadow: 0 2px 14px rgba(0,0,0,.4); }
+  .cine-note{
+    display: inline-flex; align-items: center; gap: 10px; min-height: 46px; margin-top: 22px; padding: 0 24px;
+    border-radius: 999px; color: var(--ink); background: var(--bg); box-shadow: 0 14px 30px rgba(0,0,0,.18);
+    pointer-events: auto; cursor: pointer; text-decoration: none; font-family: var(--font-body); font-weight: 700; font-size: .9rem;
+    touch-action: manipulation;
+  }
+  .cine-note:hover{ filter: brightness(1.04); }
+
+  .cine-cards{
+    position: absolute; left: 0; right: 0; top: var(--cine-cards-top); z-index: 7;
+    visibility: var(--cine-cards-visibility);
+    transform: translate3d(var(--cine-cards-enter-x), 0, 0) scale(var(--cine-cards-scale));
+    transform-origin: 0 0; pointer-events: auto; will-change: transform;
+  }
+  .cine-cards-track{
+    display: flex; gap: 16px; align-items: stretch;
+    transform: translate3d(calc(var(--cine-cards-shift) - 12vw), 0, 0);
+    transition: transform 640ms cubic-bezier(.22,1,.36,1); will-change: transform;
+  }
+  .cine-cards-track.is-jumping{ transition: none; }
+  .cine-card{
+    position: relative; flex: 0 0 clamp(240px, 22vw, 300px); min-height: 190px; padding: 22px; overflow: hidden;
+    border-radius: 20px; background: var(--surface); color: var(--ink); box-shadow: 0 16px 40px rgba(0,0,0,.22);
+    cursor: pointer; user-select: none; touch-action: manipulation;
+  }
+  .cine-card:focus-visible{ outline: 2px solid var(--accent); outline-offset: 2px; }
+  .cine-card.is-active{ box-shadow: 0 22px 50px rgba(0,0,0,.28); }
+  .cine-card .ghost{ position: absolute; top: 14px; right: 16px; font-size: 2.1rem; width: auto; }
+  .cine-kicker{ display: block; margin-bottom: 44px; font-family: var(--font-mono); font-size: .7rem; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-soft); }
+  .cine-card h3{
+    position: absolute; left: 22px; right: 60px; bottom: 64px; margin: 0; font-size: 1.25rem; font-weight: 800;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .cine-card p{
+    position: absolute; left: 22px; right: 22px; bottom: 22px; margin: 0; font-size: .85rem; color: var(--ink-soft); line-height: 1.4;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .cine-cards-controls{
+    position: absolute; left: 40px; top: calc(var(--cine-cards-top) + 190px + 14px); z-index: 8;
+    display: flex; gap: 12px; opacity: var(--cine-cards-controls-opacity); pointer-events: none;
+  }
+  .cine-cards-controls.is-ready{ pointer-events: auto; }
+  .cine-nav-btn{
+    width: 48px; height: 48px; border-radius: 999px; border: none; display: inline-flex; align-items: center; justify-content: center;
+    background: var(--bg); color: var(--ink); box-shadow: 0 14px 28px rgba(0,0,0,.2); cursor: pointer; touch-action: manipulation;
+  }
+
+  @media (max-width: 900px){
+    .cine-title{ font-size: clamp(2.6rem, 13vw, 4.5rem); top: 16vh; }
+    .cine-hero-img{ width: min(70vw, 640px); }
+    .cine-split{ width: min(48vw, 320px); }
+    .cine-close{ width: min(86vw, 640px); }
+    .cine-panel h3{ font-size: clamp(1.6rem, 6vw, 2.2rem); }
+    .cine-facts{ gap: 24px; margin-top: 28px; }
+    .cine-facts dt{ font-size: clamp(1.6rem, 6vw, 2.2rem); }
+    .cine-card{ flex-basis: min(72vw, 280px); }
+  }
+  @media (max-width: 560px){
+    .cine-stage{ min-height: 620px; }
+    .cine-eyebrow{ top: 56px; }
+    .cine-title{ top: 12vh; }
+    .cine-intro{ bottom: 40px; }
+    .cine-cards-controls{ left: 24px; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .cine-layer, .cine-title, .cine-intro, .cine-panel, .cine-cards, .cine-cards-track{ transition: none; }
+  }
 
 
   /* ---------- services ---------- */
@@ -581,38 +757,86 @@
     </div>
   </section>
 
-  <!-- ============ PROCESS ============ -->
-  <section class="section" id="process">
-    <div class="wrap">
-      <div class="section-top reveal">
-        <span class="bracket">[ 03 ]</span>
-        <span class="bracket">[ HOW IT WORKS ]</span>
-      </div>
-      <h2 class="reveal-words">How a job runs.</h2>
+  <!-- ============ PROCESS (cinematic scroll) ============ -->
+  <section class="cine-scroll" id="process" aria-label="How a Clarity job runs">
+    <div class="cine-stage">
+      <div class="cine-world">
+        <img class="cine-layer cine-sky cine-back" src="assets/nyc-skyline.jpg" alt="" loading="lazy" />
+        <img class="cine-layer cine-glow" src="assets/nyc-liberty.jpg" alt="" loading="lazy" />
+        <img class="cine-layer cine-mid" src="assets/nyc-skywalk.jpg" alt="" loading="lazy" />
 
-      <div class="process-grid">
-        <ol class="process-list">
-          <li class="reveal">
-            <span class="ghost">01</span>
-            <div class="body"><h3>Book</h3><p>Pick a service and a window — same-day slots most weeks, anywhere from the Bronx to Staten Island.</p></div>
-            <span class="pill">10 min</span>
-          </li>
-          <li class="reveal">
-            <span class="ghost">02</span>
-            <div class="body"><h3>Walkthrough</h3><p>We confirm scope on-site or by photo, so the checklist matches your space exactly.</p></div>
-            <span class="pill">15 min</span>
-          </li>
-          <li class="reveal">
-            <span class="ghost">03</span>
-            <div class="body"><h3>Clean</h3><p>The crew works the same numbered checklist every time, start to finish.</p></div>
-            <span class="pill">1&ndash;3 hrs</span>
-          </li>
-          <li class="reveal">
-            <span class="ghost">04</span>
-            <div class="body"><h3>Sign-off</h3><p>A final walkthrough together, and the job's marked complete.</p></div>
-            <span class="pill">5 min</span>
-          </li>
-        </ol>
+        <span class="cine-eyebrow">[ 03 / HOW IT WORKS ]</span>
+        <h2 class="cine-title">THE PROCESS</h2>
+
+        <img class="cine-layer cine-split cine-split-left" src="assets/home-1.jpg" alt="Living room, cleaned" loading="lazy" />
+        <img class="cine-layer cine-split cine-split-right" src="assets/office-2.jpg" alt="Open-plan office floor, cleaned" loading="lazy" />
+        <img class="cine-layer cine-hero-img" src="assets/interior-1.jpg" alt="Bedroom, cleaned and staged" loading="lazy" />
+        <img class="cine-layer cine-close" src="assets/post-1.jpg" alt="Kitchen mid-renovation, cleaned" loading="lazy" />
+        <div class="cine-shade" aria-hidden="true"></div>
+
+        <div class="cine-intro">
+          <p>Every job runs the same numbered checklist — scroll to see it unfold.</p>
+          <div class="cine-tags">
+            <span>Same checklist</span>
+            <span>Every borough</span>
+            <span>No surprises</span>
+          </div>
+        </div>
+
+        <div class="cine-panel cine-panel-1">
+          <h3>Every space gets the same checklist.</h3>
+          <p>From a Tribeca loft to a Long Island City office floor, Clarity runs one numbered process, start to finish.</p>
+          <dl class="cine-facts">
+            <div><dt>4</dt><dd>Steps, every visit</dd></div>
+            <div><dt>10</dt><dd>Minutes to book</dd></div>
+          </dl>
+        </div>
+
+        <div class="cine-panel cine-panel-2">
+          <h3>Built for how New York works.</h3>
+          <p>Flexible scheduling across all five boroughs, with crews who know commercial buildings as well as walk-ups.</p>
+          <a class="cine-note" href="#services">
+            <span>See the full service list</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+
+        <div class="cine-cards" aria-label="Process steps">
+          <div class="cine-cards-track">
+            <article class="cine-card" tabindex="0" role="button" aria-label="Booking step details">
+              <span class="ghost">01</span>
+              <span class="cine-kicker">Booking</span>
+              <h3>Book</h3>
+              <p>Pick a service and a window — same-day slots most weeks, anywhere from the Bronx to Staten Island.</p>
+            </article>
+            <article class="cine-card" tabindex="0" role="button" aria-label="Walkthrough step details">
+              <span class="ghost">02</span>
+              <span class="cine-kicker">On&#8209;site</span>
+              <h3>Walkthrough</h3>
+              <p>We confirm scope on-site or by photo, so the checklist matches your space exactly.</p>
+            </article>
+            <article class="cine-card" tabindex="0" role="button" aria-label="Clean step details">
+              <span class="ghost">03</span>
+              <span class="cine-kicker">Cleaning</span>
+              <h3>Clean</h3>
+              <p>The crew works the same numbered checklist every time, start to finish.</p>
+            </article>
+            <article class="cine-card" tabindex="0" role="button" aria-label="Sign-off step details">
+              <span class="ghost">04</span>
+              <span class="cine-kicker">Wrap&#8209;up</span>
+              <h3>Sign-off</h3>
+              <p>A final walkthrough together, and the job's marked complete.</p>
+            </article>
+          </div>
+        </div>
+        <div class="cine-cards-controls" aria-label="Slider controls">
+          <button class="cine-nav-btn cine-prev" type="button" aria-label="Previous step">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          </button>
+          <button class="cine-nav-btn cine-next" type="button" aria-label="Next step">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
       </div>
     </div>
   </section>
@@ -814,6 +1038,195 @@
       });
       btn.addEventListener('mouseleave', function(){ btn.style.transform = ''; });
     });
+  })();
+
+  (function(){
+    var section = document.querySelector('.cine-scroll');
+    if (!section) return;
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var track = section.querySelector('.cine-cards-track');
+    var controls = section.querySelector('.cine-cards-controls');
+    var prevBtn = section.querySelector('.cine-prev');
+    var nextBtn = section.querySelector('.cine-next');
+    var originalCards = Array.prototype.slice.call(track.children);
+    var originalCount = originalCards.length;
+    var cards = [];
+    var activeCard = originalCount;
+
+    function clamp(v, min, max){
+      if (min === undefined) min = 0;
+      if (max === undefined) max = 1;
+      return Math.min(max, Math.max(min, v));
+    }
+    function smoothstep(e0, e1, v){ var x = clamp((v - e0) / (e1 - e0)); return x * x * (3 - 2 * x); }
+    function lerp(a, b, t){ return a + (b - a) * t; }
+    function segmentInOut(s, a, b, c, d){
+      var enter = smoothstep(a, b, s), exit = smoothstep(c, d, s);
+      return { enter: enter, exit: exit, active: enter * (1 - exit) };
+    }
+    function getScrollDistance(){
+      var rect = section.getBoundingClientRect();
+      return clamp(-rect.top, 0, section.offsetHeight - window.innerHeight);
+    }
+
+    function setupCards(){
+      track.innerHTML = '';
+      for (var setIndex = 0; setIndex < 3; setIndex++){
+        originalCards.forEach(function(card, i){
+          var clone = card.cloneNode(true);
+          clone.dataset.cardIndex = setIndex * originalCount + i;
+          clone.addEventListener('click', function(){ selectCard(clone); });
+          clone.addEventListener('keydown', function(e){
+            if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); selectCard(clone); }
+          });
+          track.appendChild(clone);
+        });
+      }
+      cards = Array.prototype.slice.call(track.children);
+      activeCard = originalCount;
+      track.addEventListener('transitionend', normalizeCards);
+      updateCardPosition();
+    }
+
+    function updateCardPosition(){
+      if (!cards.length) return;
+      var cardWidth = cards[0].offsetWidth;
+      var gap = parseFloat(getComputedStyle(track).columnGap || '0');
+      section.style.setProperty('--cine-cards-shift', (-(cardWidth + gap) * activeCard) + 'px');
+      cards.forEach(function(c, i){ c.classList.toggle('is-active', i === activeCard); });
+    }
+    function moveCard(dir){ activeCard += dir; updateCardPosition(); }
+    function selectCard(card){
+      var idx = Number(card.dataset.cardIndex);
+      if (Number.isFinite(idx)){ activeCard = idx; updateCardPosition(); }
+    }
+    function jumpCards(i){
+      track.classList.add('is-jumping');
+      activeCard = i;
+      updateCardPosition();
+      requestAnimationFrame(function(){
+        requestAnimationFrame(function(){ track.classList.remove('is-jumping'); });
+      });
+    }
+    function normalizeCards(){
+      if (activeCard >= originalCount * 2) jumpCards(activeCard - originalCount);
+      else if (activeCard < originalCount) jumpCards(activeCard + originalCount);
+    }
+
+    var targetMouseX = 0, targetMouseY = 0, mouseX = 0, mouseY = 0;
+    var targetScroll = 0, smoothScroll = 0, initialized = false, rafPending = false;
+
+    function update(){
+      rafPending = false;
+      targetScroll = getScrollDistance();
+      if (!initialized || reduceMotion){ smoothScroll = targetScroll; initialized = true; }
+      else { smoothScroll = lerp(smoothScroll, targetScroll, 0.14); }
+      if (Math.abs(smoothScroll - targetScroll) < 0.08) smoothScroll = targetScroll;
+
+      mouseX = reduceMotion ? 0 : lerp(mouseX, targetMouseX, 0.12);
+      mouseY = reduceMotion ? 0 : lerp(mouseY, targetMouseY, 0.12);
+
+      var s = smoothScroll;
+      var frame1 = segmentInOut(s, 300, 500, 760, 900);
+      var frame2 = segmentInOut(s, 980, 1180, 1420, 1500);
+      var progress = clamp(s / 1500);
+      var introExit = smoothstep(50, 340, s);
+      var cardsEnterRaw = smoothstep(1520, 1680, s);
+      var cardsEnter = Math.pow(cardsEnterRaw, 1.5);
+      var cardsControlsEnter = smoothstep(1600, 1740, s);
+      var blurActive = clamp(frame1.active + frame2.active);
+      var splitDrift = Math.pow(frame1.enter, 1.5);
+      var panel1Opacity = frame1.active * (1 - frame1.exit);
+      var panel2Opacity = frame2.active * (1 - frame2.exit);
+      var backScale = 0.8 + progress * 0.16 + frame1.enter * 0.14 + frame2.enter * 0.12;
+
+      var style = section.style;
+      style.setProperty('--cine-mx', mouseX.toFixed(4));
+      style.setProperty('--cine-my', mouseY.toFixed(4));
+
+      style.setProperty('--cine-back-opacity', (1 - frame1.active * 0.06).toFixed(3));
+      style.setProperty('--cine-back-x', (mouseX * -10) + 'px');
+      style.setProperty('--cine-back-y', (mouseY * -3) + 'px');
+      style.setProperty('--cine-back-scale', backScale.toFixed(4));
+      style.setProperty('--cine-glow-y', (6 + progress * 6) + 'vh');
+      style.setProperty('--cine-glow-scale', (0.82 + progress * 0.12).toFixed(3));
+      style.setProperty('--cine-mid-y', (14 - progress * 6) + 'vh');
+      style.setProperty('--cine-blur-px', (blurActive * 10) + 'px');
+      style.setProperty('--cine-back-brightness', (1 - blurActive * 0.2).toFixed(3));
+      style.setProperty('--cine-mid-blur-px', (frame1.active * 10) + 'px');
+      style.setProperty('--cine-mid-brightness', (1 - frame1.active * 0.2 - frame2.active * 0.05).toFixed(3));
+      style.setProperty('--cine-mid-saturation', (1 + frame2.active * 0.15).toFixed(3));
+
+      style.setProperty('--cine-shade-z', frame1.active > 0.02 ? '2' : '0');
+      style.setProperty('--cine-shade-top-alpha', (blurActive * 0.4).toFixed(3));
+      style.setProperty('--cine-shade-mid-alpha', (blurActive * 0.36).toFixed(3));
+      style.setProperty('--cine-shade-bottom-alpha', (blurActive * 0.46).toFixed(3));
+
+      style.setProperty('--cine-title-y', (introExit * -160) + 'px');
+      style.setProperty('--cine-title-scale', (1 - introExit * 0.08).toFixed(3));
+      style.setProperty('--cine-title-opacity', (1 - introExit).toFixed(3));
+
+      style.setProperty('--cine-hero-x', 'calc(-50% + ' + (mouseX * 14) + 'px)');
+      style.setProperty('--cine-hero-y', (mouseY * 6 + progress * -50 - frame1.exit * 520) + 'px');
+      style.setProperty('--cine-hero-bottom', (6 - frame1.enter * 10) + 'vh');
+      style.setProperty('--cine-hero-width', (46 + frame1.enter * 26) + 'vw');
+      style.setProperty('--cine-hero-scale', (1 + progress * 0.14 + frame1.exit * 0.3).toFixed(4));
+
+      style.setProperty('--cine-split-left-x', 'calc(-50% + ' + (-splitDrift * 30) + 'vw + ' + (mouseX * 16) + 'px)');
+      style.setProperty('--cine-split-left-y', (mouseY * 8 + progress * -50 - splitDrift * 120) + 'px');
+      style.setProperty('--cine-split-left-scale', (1 + progress * 0.14 + frame1.enter * 0.5).toFixed(4));
+      style.setProperty('--cine-split-right-x', 'calc(-50% + ' + (splitDrift * 30) + 'vw + ' + (mouseX * 16) + 'px)');
+      style.setProperty('--cine-split-right-y', (mouseY * 8 + progress * -50 - splitDrift * 120) + 'px');
+      style.setProperty('--cine-split-right-scale', (1 + progress * 0.14 + frame1.enter * 0.5).toFixed(4));
+
+      style.setProperty('--cine-close-opacity', (frame2.enter * (1 - frame2.exit)).toFixed(3));
+      style.setProperty('--cine-close-x', 'calc(-50% + ' + (mouseX * 8) + 'px)');
+      style.setProperty('--cine-close-y', 'calc(-50% + ' + (mouseY * 6 - frame2.exit * 110) + 'px)');
+      style.setProperty('--cine-close-scale', (1.06 + frame2.enter * 0.06 + frame2.exit * 0.06).toFixed(4));
+
+      style.setProperty('--cine-intro-y', (introExit * 70) + 'px');
+      style.setProperty('--cine-intro-opacity', (1 - introExit).toFixed(3));
+
+      style.setProperty('--cine-panel1-opacity', panel1Opacity.toFixed(3));
+      style.setProperty('--cine-panel1-y', 'calc(-50% + ' + (-frame1.exit * 64 + (1 - frame1.enter) * 46) + 'px)');
+      style.setProperty('--cine-panel2-opacity', panel2Opacity.toFixed(3));
+      style.setProperty('--cine-panel2-y', 'calc(-50% + ' + (-frame2.exit * 64 + (1 - frame2.enter) * 46) + 'px)');
+
+      style.setProperty('--cine-cards-controls-opacity', cardsControlsEnter.toFixed(3));
+      controls.classList.toggle('is-ready', cardsControlsEnter > 0.98);
+      style.setProperty('--cine-cards-visibility', cardsEnter > 0.01 ? 'visible' : 'hidden');
+      style.setProperty('--cine-cards-enter-x', ((1 - cardsEnter) * 320) + 'vw');
+      style.setProperty('--cine-cards-scale', (1 / backScale).toFixed(4));
+      var screenTop = Math.min(190, Math.max(96, window.innerHeight * 0.17)) - 40;
+      style.setProperty('--cine-cards-top', screenTop + 'px');
+
+      if (Math.abs(smoothScroll - targetScroll) > 0.08 ||
+          Math.abs(mouseX - targetMouseX) > 0.001 ||
+          Math.abs(mouseY - targetMouseY) > 0.001){
+        requestTick();
+      }
+    }
+
+    function requestTick(){
+      if (rafPending) return;
+      rafPending = true;
+      requestAnimationFrame(update);
+    }
+
+    window.addEventListener('scroll', requestTick, { passive: true });
+    window.addEventListener('resize', function(){ updateCardPosition(); requestTick(); });
+    if (!reduceMotion){
+      window.addEventListener('pointermove', function(e){
+        targetMouseX = e.clientX / window.innerWidth - 0.5;
+        targetMouseY = e.clientY / window.innerHeight - 0.5;
+        requestTick();
+      }, { passive: true });
+    }
+    prevBtn.addEventListener('click', function(){ moveCard(-1); });
+    nextBtn.addEventListener('click', function(){ moveCard(1); });
+
+    setupCards();
+    requestTick();
   })();
 </script>
 </body>
